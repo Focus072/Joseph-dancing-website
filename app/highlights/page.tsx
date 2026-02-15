@@ -1,13 +1,14 @@
 import Header from "../components/Header";
 import VideoRow from "../components/VideoRow";
 import type { Metadata } from "next";
+import type { MediaItem } from "@/lib/media";
 
 export const metadata: Metadata = {
   title: "Videos - Joseph's Dancing Highlights",
   description: "Watch Joseph's dance videos organized by category. Browse performances, behind-the-scenes content, and dance highlights.",
 };
 
-async function getMedia() {
+async function getMedia(): Promise<MediaItem[]> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
     const response = await fetch(`${baseUrl}/api/media`, {
@@ -21,17 +22,6 @@ async function getMedia() {
     console.error("Error fetching media:", error);
     return [];
   }
-}
-
-interface MediaItem {
-  id: string;
-  type: "video" | "photo" | "embed";
-  url: string;
-  thumbnail?: string;
-  title?: string;
-  description?: string;
-  embedUrl?: string;
-  category?: string;
 }
 
 
