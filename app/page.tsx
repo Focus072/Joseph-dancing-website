@@ -1,6 +1,7 @@
 import Gallery from "./components/Gallery";
 import Header from "./components/Header";
 import type { Metadata } from "next";
+import { getMediaItems } from "@/lib/media";
 
 export const metadata: Metadata = {
   title: "Home - Joseph's Dancing Highlights",
@@ -9,14 +10,7 @@ export const metadata: Metadata = {
 
 async function getMedia() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/media`, {
-      cache: "no-store",
-    });
-    if (!response.ok) {
-      return [];
-    }
-    return await response.json();
+    return await getMediaItems();
   } catch (error) {
     console.error("Error fetching media:", error);
     return [];

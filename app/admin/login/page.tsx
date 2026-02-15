@@ -31,8 +31,8 @@ export default function LoginPage() {
 
       router.push("/admin");
       router.refresh();
-    } catch (err: any) {
-      setError(err.message || "Invalid password");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Invalid password");
     } finally {
       setLoading(false);
     }
@@ -62,7 +62,7 @@ export default function LoginPage() {
             <span className="font-medium">Back to Home</span>
           </button>
         </div>
-        
+
         <div className="text-center mb-6 sm:mb-8">
           <div className="mx-auto mb-3 sm:mb-4">
             <Logo size="medium" />
@@ -87,7 +87,7 @@ export default function LoginPage() {
               autoComplete="current-password"
             />
           </div>
-          
+
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg flex items-center gap-2">
               <svg
@@ -106,7 +106,7 @@ export default function LoginPage() {
               <span>{error}</span>
             </div>
           )}
-          
+
           <button
             type="submit"
             disabled={loading}
