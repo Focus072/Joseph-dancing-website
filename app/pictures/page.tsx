@@ -1,7 +1,8 @@
 import Header from "../components/Header";
 import Gallery from "../components/Gallery";
+import type { MediaItem } from "@/lib/media";
 
-async function getMedia() {
+async function getMedia(): Promise<MediaItem[]> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
     const response = await fetch(`${baseUrl}/api/media`, {
