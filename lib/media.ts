@@ -1,8 +1,37 @@
 import { promises as fs } from "fs";
 import path from "path";
+import { readMediaListFromBlob, writeMediaListToBlob } from "@/lib/blob";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 const MEDIA_FILE = path.join(DATA_DIR, "media.json");
+
+const useBlobStorage = () => !!process.env.BLOB_READ_WRITE_TOKEN;
+
+async function readFullMediaList(): Promise<MediaItem[]> {
+  if (useBlobStorage()) {
+    try {
+      return await readMediaListFromBlob();
+    } catch {
+      return [];
+    }
+  }
+  try {
+    await fs.mkdir(DATA_DIR, { recursive: true });
+    const data = await fs.readFile(MEDIA_FILE, "utf-8");
+    return JSON.parse(data);
+  } catch {
+    return [];
+  }
+}
+
+async function writeFullMediaList(items: MediaItem[]): Promise<void> {
+  if (useBlobStorage()) {
+    await writeMediaListToBlob(items);
+    return;
+  }
+  await fs.mkdir(DATA_DIR, { recursive: true });
+  await fs.writeFile(MEDIA_FILE, JSON.stringify(items, null, 2));
+}
 
 export interface MediaItem {
   id: string;
@@ -25,66 +54,42 @@ export interface MediaItem {
 }
 
 export async function getMediaItems(includeArchived: boolean = false): Promise<MediaItem[]> {
-  try {
-    await fs.mkdir(DATA_DIR, { recursive: true });
-    const data = await fs.readFile(MEDIA_FILE, "utf-8");
-    const items: MediaItem[] = JSON.parse(data);
-    
-    // Filter out archived items unless requested
-    const filtered = includeArchived ? items : items.filter(item => !item.archived);
-    
-    // Sort by order, then by createdAt
-    return filtered.sort((a, b) => {
-      const orderA = a.order ?? 0;
-      const orderB = b.order ?? 0;
-      if (orderA !== orderB) {
-        return orderA - orderB;
-      }
-      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-    });
-  } catch (error) {
-    return [];
-  }
+  const items = await readFullMediaList();
+  const filtered = includeArchived ? items : items.filter((item) => !item.archived);
+  return filtered.sort((a, b) => {
+    const orderA = a.order ?? 0;
+    const orderB = b.order ?? 0;
+    if (orderA !== orderB) return orderA - orderB;
+    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+  });
 }
 
 export async function saveMediaItem(item: MediaItem): Promise<void> {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  const items = await getMediaItems(true); // Get all items including archived
+  const items = await getMediaItems(true);
   items.push(item);
-  await fs.writeFile(MEDIA_FILE, JSON.stringify(items, null, 2));
+  await writeFullMediaList(items);
 }
 
 export async function updateMediaItem(id: string, updates: Partial<MediaItem>): Promise<MediaItem | null> {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  const items = await getMediaItems(true); // Get all items including archived
+  const items = await getMediaItems(true);
   const index = items.findIndex((item) => item.id === id);
-  
-  if (index === -1) {
-    return null;
-  }
-  
+  if (index === -1) return null;
   items[index] = { ...items[index], ...updates };
-  await fs.writeFile(MEDIA_FILE, JSON.stringify(items, null, 2));
+  await writeFullMediaList(items);
   return items[index];
 }
 
 export async function deleteMediaItem(id: string): Promise<void> {
-  const items = await getMediaItems(true); // Get all items including archived
+  const items = await getMediaItems(true);
   const filtered = items.filter((item) => item.id !== id);
-  await fs.writeFile(MEDIA_FILE, JSON.stringify(filtered, null, 2));
+  await writeFullMediaList(filtered);
 }
 
 export async function reorderMediaItems(orderedIds: string[]): Promise<void> {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  const items = await getMediaItems(true); // Get all items including archived
-  
-  // Update order for each item based on its position in orderedIds
+  const items = await getMediaItems(true);
   orderedIds.forEach((id, index) => {
-    const item = items.find((item) => item.id === id);
-    if (item) {
-      item.order = index;
-    }
+    const item = items.find((i) => i.id === id);
+    if (item) item.order = index;
   });
-  
-  await fs.writeFile(MEDIA_FILE, JSON.stringify(items, null, 2));
+  await writeFullMediaList(items);
 }

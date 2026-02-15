@@ -44,8 +44,9 @@ export default function AdminPage() {
 
   useEffect(() => {
     fetch("/api/auth/check")
-      .then((res) => {
-        if (res.ok) {
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.authenticated) {
           setAuthenticated(true);
           fetchMedia();
         } else {

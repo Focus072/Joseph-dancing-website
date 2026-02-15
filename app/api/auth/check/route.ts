@@ -6,7 +6,7 @@ export async function GET() {
   const authCookie = cookieStore.get("admin-auth");
 
   if (!authCookie || authCookie.value !== "authenticated") {
-    return NextResponse.json({ authenticated: false }, { status: 401 });
+    return NextResponse.json({ authenticated: false }, { status: 200 });
   }
 
   return NextResponse.json({ authenticated: true });

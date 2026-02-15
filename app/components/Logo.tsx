@@ -7,9 +7,10 @@ interface LogoProps {
   className?: string;
 }
 
+const LOGO_PATH = '/logo.png';
+
 export default function Logo({ size = 'medium', className = '' }: LogoProps) {
   const [imageError, setImageError] = useState(false);
-  const [currentSrc, setCurrentSrc] = useState('/logo.png');
 
   const sizeClasses = {
     small: 'w-9 h-9 md:w-10 md:h-10',
@@ -23,22 +24,7 @@ export default function Logo({ size = 'medium', className = '' }: LogoProps) {
     large: 'text-2xl md:text-3xl',
   };
 
-  const handleError = () => {
-    // Try different formats
-    if (currentSrc === '/logo.png') {
-      console.log('Logo: Trying logo.jpg...');
-      setCurrentSrc('/logo.jpg');
-    } else if (currentSrc === '/logo.jpg') {
-      console.log('Logo: Trying logo.jpeg...');
-      setCurrentSrc('/logo.jpeg');
-    } else if (currentSrc === '/logo.jpeg') {
-      console.log('Logo: Trying logo.webp...');
-      setCurrentSrc('/logo.webp');
-    } else {
-      console.log('Logo: All formats failed, showing fallback "J"');
-      setImageError(true);
-    }
-  };
+  const handleError = () => setImageError(true);
 
   if (imageError) {
     return (
@@ -51,7 +37,7 @@ export default function Logo({ size = 'medium', className = '' }: LogoProps) {
   return (
     <div className={`${sizeClasses[size]} rounded-full overflow-hidden shadow-2xl ring-2 ring-white/20 bg-gray-800 ${className}`}>
       <img 
-        src={currentSrc} 
+        src={LOGO_PATH} 
         alt="Joseph's Dancing Highlights Logo" 
         className="w-full h-full object-cover"
         onError={handleError}
