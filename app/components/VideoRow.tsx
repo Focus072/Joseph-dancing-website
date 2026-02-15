@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState } from "react";
 import VideoPlayer from "./VideoPlayer";
@@ -12,45 +12,40 @@ interface MediaItem {
   title?: string;
   description?: string;
   embedUrl?: string;
+  category?: string;
 }
 
-interface GalleryProps {
+interface VideoRowProps {
+  category: string;
   items: MediaItem[];
 }
 
-export default function Gallery({ items }: GalleryProps) {
+export default function VideoRow({ category, items }: VideoRowProps) {
   const [selectedItem, setSelectedItem] = useState<MediaItem | null>(null);
-
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
-        {items.map((item) => (
-          <div
-            key={item.id}
-            className="relative group cursor-pointer overflow-hidden bg-gray-900 aspect-video transition-all duration-300 transform hover:scale-[1.02]"
-            onClick={() => setSelectedItem(item)}
-          >
-            {item.type === "photo" && item.url && (
-              <Image
-                src={item.url}
-                alt={item.title || "Photo"}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-110"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-              />
-            )}
-            {(item.type === "video" || item.type === "embed") && (
-              <>
+      <div className="mb-12">
+        <h2 className="boiler-room-font text-2xl md:text-3xl uppercase text-white mb-6">
+          {category}
+        </h2>
+        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+          {items.map((item) => (
+            <div
+              key={item.id}
+              className="flex-shrink-0 w-64 md:w-80 cursor-pointer group"
+              onClick={() => setSelectedItem(item)}
+            >
+              <div className="relative aspect-video bg-gray-900 overflow-hidden">
                 {item.thumbnail ? (
                   <Image
                     src={item.thumbnail}
-                    alt={item.title || "Video"}
+                    alt={item.title || "Video thumbnail"}
                     fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-110"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 768px) 256px, 320px"
                   />
-                ) : (
+                ) : item.type === "video" || item.type === "embed" ? (
                   <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
                     <svg
                       className="w-16 h-16 text-gray-600"
@@ -60,8 +55,16 @@ export default function Gallery({ items }: GalleryProps) {
                       <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
                     </svg>
                   </div>
+                ) : (
+                  <Image
+                    src={item.url}
+                    alt={item.title || "Media"}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 768px) 256px, 320px"
+                  />
                 )}
-                <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/40 transition-all duration-300">
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
                   <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center transform scale-90 group-hover:scale-100 transition-all duration-300 border border-white/20">
                     <svg
                       className="w-8 h-8 text-white ml-1"
@@ -72,15 +75,18 @@ export default function Gallery({ items }: GalleryProps) {
                     </svg>
                   </div>
                 </div>
-              </>
-            )}
-            {item.title && (
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <p className="text-white font-medium text-sm uppercase tracking-wide">{item.title}</p>
               </div>
-            )}
-          </div>
-        ))}
+              {item.title && (
+                <div className="mt-3">
+                  <p className="boiler-room-font text-sm uppercase text-white">{item.title}</p>
+                  {item.description && (
+                    <p className="text-xs text-gray-400 mt-1 line-clamp-2">{item.description}</p>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
       {selectedItem && (

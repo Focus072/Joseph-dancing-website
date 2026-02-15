@@ -1,0 +1,78 @@
+[
+  {
+    "id": "1769503972592",
+    "type": "photo",
+    "url": "https://picsum.photos/seed/dance1/800/600",
+    "title": "Dance Performance 1",
+    "description": "Contemporary dance piece",
+    "createdAt": "2026-01-27T08:52:52.592Z"
+  },
+  {
+    "id": "1769503972593",
+    "type": "photo",
+    "url": "https://picsum.photos/seed/dance2/800/600",
+    "title": "Dance Performance 2",
+    "description": "Modern dance showcase",
+    "createdAt": "2026-01-27T08:52:52.592Z"
+  },
+  {
+    "id": "1769503972594",
+    "type": "photo",
+    "url": "https://picsum.photos/seed/dance3/800/600",
+    "title": "Dance Performance 3",
+    "description": "Ballet performance",
+    "createdAt": "2026-01-27T08:52:52.592Z"
+  },
+  {
+    "id": "1769503972595",
+    "type": "photo",
+    "url": "https://picsum.photos/seed/dance4/800/600",
+    "title": "Dance Performance 4",
+    "description": "Hip hop dance",
+    "createdAt": "2026-01-27T08:52:52.592Z"
+  },
+  {
+    "id": "1769503972596",
+    "type": "photo",
+    "url": "https://picsum.photos/seed/dance5/800/600",
+    "title": "Dance Performance 5",
+    "description": "Jazz dance routine",
+    "createdAt": "2026-01-27T08:52:52.592Z"
+  },
+  {
+    "id": "1769503972597",
+    "type": "photo",
+    "url": "https://picsum.photos/seed/dance6/800/600",
+    "title": "Dance Performance 6",
+    "description": "Street dance",
+    "createdAt": "2026-01-27T08:52:52.592Z"
+  },
+  {
+    "id": "1769503972598",
+    "type": "photo",
+    "url": "https://picsum.photos/seed/dance7/800/600",
+    "title": "Dance Performance 7",
+    "description": "Latin dance",
+    "createdAt": "2026-01-27T08:52:52.592Z"
+  },
+  {
+    "id": "1769503972599",
+    "type": "photo",
+    "url": "https://picsum.photos/seed/dance8/800/600",
+    "title": "Dance Performance 8",
+    "description": "Contemporary fusion",
+    "createdAt": "2026-01-27T08:52:52.592Z"
+  },
+  {
+    "id": "1770073962913",
+    "type": "embed",
+    "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "title": "Test Dance Performance",
+    "description": "A Test Video",
+    "embedUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "category": "Performance",
+    "createdAt": "2026-02-02T23:12:42.913Z",
+    "order": 8,
+    "archived": false
+  }
+]
