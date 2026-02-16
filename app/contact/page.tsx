@@ -59,32 +59,16 @@ export default function ContactPage() {
                     Social Media
                   </h2>
                   <p className="text-gray-400 mb-4">
-                    You can also reach out through social media platforms:
+                    You can also reach out through Instagram:
                   </p>
                   <div className="flex flex-wrap gap-4">
                     <a
-                      href={process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://instagram.com"}
+                      href={process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://www.instagram.com/jojo_.the3rd._/"}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="boiler-room-font text-sm uppercase text-white hover:text-gray-300 transition-colors border border-gray-700 px-4 py-2 rounded-lg hover:border-white"
                     >
                       Instagram
-                    </a>
-                    <a
-                      href={process.env.NEXT_PUBLIC_YOUTUBE_URL || "https://youtube.com"}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="boiler-room-font text-sm uppercase text-white hover:text-gray-300 transition-colors border border-gray-700 px-4 py-2 rounded-lg hover:border-white"
-                    >
-                      YouTube
-                    </a>
-                    <a
-                      href={process.env.NEXT_PUBLIC_TIKTOK_URL || "https://tiktok.com"}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="boiler-room-font text-sm uppercase text-white hover:text-gray-300 transition-colors border border-gray-700 px-4 py-2 rounded-lg hover:border-white"
-                    >
-                      TikTok
                     </a>
                   </div>
                 </div>

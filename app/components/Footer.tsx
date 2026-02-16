@@ -2,15 +2,7 @@ export default function Footer() {
   const socialLinks = [
     {
       name: "Instagram",
-      url: process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://instagram.com",
-    },
-    {
-      name: "YouTube",
-      url: process.env.NEXT_PUBLIC_YOUTUBE_URL || "https://youtube.com",
-    },
-    {
-      name: "TikTok",
-      url: process.env.NEXT_PUBLIC_TIKTOK_URL || "https://tiktok.com",
+      url: process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://www.instagram.com/jojo_.the3rd._/",
     },
   ];
 
